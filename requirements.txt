@@ -1,0 +1,11 @@
+Django==1.10.2
+django-filter==0.14.0
+django-graphiql==0.4.4
+graphene==0.10.2
+graphql-core==0.5.3
+graphql-django-view==1.4
+graphql-relay==0.4.4
+iso8601==0.1.11
+promise==1.0.0
+six==1.10.0
+typing==3.5.2.2
