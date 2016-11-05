@@ -85,7 +85,7 @@ DATABASES = {
 
 # graphene
 GRAPHENE = {
-    'SCHEMA': 'authentication.schema.schema',
+    'SCHEMA': 'Compartir.schema.schema',
     'MIDDLEWARE': (
         'graphene_django.debug.DjangoDebugMiddleware',
     )
