@@ -8,7 +8,7 @@ class Query(authentication.schema.Query, ObjectType):
     node = relay.Node.Field()
 
 
-'''class Mutation(authentication.schema.Mutation, ObjectType):
+class Mutation(authentication.schema.Mutation, ObjectType):
     pass
-'''
-schema = graphene.Schema(query=Query)
+
+schema = graphene.Schema(query=Query, mutation=Mutation)
