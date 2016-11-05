@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'authentication.apps.AuthenticationConfig',
+    'graphene_django',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -80,6 +81,14 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'compartir',
     }
+}
+
+# graphene
+GRAPHENE = {
+    'SCHEMA': 'authentication.schema.schema',
+    'MIDDLEWARE': (
+        'graphene_django.debug.DjangoDebugMiddleware',
+    )
 }
 
 
