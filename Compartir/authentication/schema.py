@@ -13,7 +13,7 @@ class UserNode(DjangoObjectType):
     @classmethod
     def get_node(cls, id, context, info):
         user = super(UserNode, cls).get_node(id, context, info)
-        if context.user.id and user.id == context.user.id:
+        if context.user and user == context.user:
             return user
         else:
             return None
