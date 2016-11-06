@@ -1,14 +1,14 @@
 import graphene
 from graphene import relay, ObjectType
 
-import authentication.schema
+import graph_auth.schema
 
 
-class Query(authentication.schema.Query, ObjectType):
+class Query(graph_auth.schema.Query, ObjectType):
     node = relay.Node.Field()
 
 
-class Mutation(authentication.schema.Mutation, ObjectType):
+class Mutation(graph_auth.schema.Mutation, ObjectType):
     pass
 
 schema = graphene.Schema(query=Query, mutation=Mutation)

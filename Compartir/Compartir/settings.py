@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authentication.apps.AuthenticationConfig',
     'graphene_django',
+    'graph_auth'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -71,6 +72,10 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Compartir.wsgi.application'
+
+GRAPH_AUTH = {
+    'USER_FIELDS': ('username', 'email', 'first_name', 'last_name', )
+}
 
 
 # Database
