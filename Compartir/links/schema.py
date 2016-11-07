@@ -19,3 +19,10 @@ class LinkNode(DjangoObjectType):
 class Query(AbstractType):
     links = Field(LinkNode)
     all_links = DjangoFilterConnectionField(LinkNode)
+
+    def resolve_all_links(self, args, context, info):
+
+        if not context.user.is_authenticated():
+            return LinkModel.objects.none()
+        else:
+            return LinkModel.objects.filter(owner=context.user)
