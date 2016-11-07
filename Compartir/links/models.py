@@ -8,6 +8,7 @@ class LinkModel(models.Model):
     url = models.URLField(max_length=300)
     title = models.CharField(max_length=100, blank=True)
     description = models.TextField(blank=True)
+    owner = models.ForeignKey('auth.User', related_name='links')
     # consider the django tag model to add tags
 
     def __str__(self):
