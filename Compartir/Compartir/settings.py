@@ -38,8 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'authentication.apps.AuthenticationConfig',
+    'links.apps.LinksConfig',
     'graphene_django',
-    'graph_auth'
+    'graph_auth',
 ]
 
 MIDDLEWARE_CLASSES = [
