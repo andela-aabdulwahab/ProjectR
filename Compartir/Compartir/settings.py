@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'authentication.apps.AuthenticationConfig',
+    'graphene_django',
+    'graph_auth'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -71,6 +73,10 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'Compartir.wsgi.application'
 
+GRAPH_AUTH = {
+    'USER_FIELDS': ('username', 'email', 'first_name', 'last_name', )
+}
+
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
@@ -80,6 +86,14 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'compartir',
     }
+}
+
+# graphene
+GRAPHENE = {
+    'SCHEMA': 'Compartir.schema.schema',
+    'MIDDLEWARE': (
+        'graphene_django.debug.DjangoDebugMiddleware',
+    )
 }
 
 
