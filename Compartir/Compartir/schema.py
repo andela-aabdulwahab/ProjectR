@@ -5,8 +5,10 @@ from graphene import relay, ObjectType
 
 import graph_auth.schema
 
+from links.schema import Query as LinkQuery
 
-class Query(graph_auth.schema.Query, ObjectType):
+
+class Query(graph_auth.schema.Query, LinkQuery, ObjectType):
     node = relay.Node.Field()
 
 

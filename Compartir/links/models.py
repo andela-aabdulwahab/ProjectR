@@ -9,3 +9,6 @@ class LinkModel(models.Model):
     title = models.CharField(max_length=100, blank=True)
     description = models.TextField(blank=True)
     # consider the django tag model to add tags
+
+    def __str__(self):
+        return self.title
