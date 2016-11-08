@@ -1,6 +1,6 @@
 from django.contrib.auth.middleware import get_user
 
-from graphene import AbstractType, Field, Node
+from graphene import AbstractType, Field, Node, relay, String, Boolean
 from graphene_django.filter import DjangoFilterConnectionField
 from graphene_django.types import DjangoObjectType
 
@@ -35,6 +35,29 @@ class LinkNode(DjangoObjectType):
         }
 
 
+class AddLink(relay.ClientIDMutation):
+
+    class Input:
+        title = String()
+        url = String(required=True)
+        description = String()
+
+    ok = Boolean()
+    link = Field(LinkNode)
+
+    @classmethod
+    def mutate_and_get_payload(cls, input, context, info):
+        title = input.pop('title')
+        url = input.pop('url')
+        user = get_user_jwt(context)
+
+        if not user.is_authenticated():
+            raise Exception("Action not allowed for Login User")
+        link = LinkModel.objects.create(title=title, url=url,
+                                        owner=user, **input)
+        return AddLink(ok=True, link=link)
+
+
 class Query(AbstractType):
     links = Field(LinkNode)
     all_links = DjangoFilterConnectionField(LinkNode)
@@ -46,3 +69,7 @@ class Query(AbstractType):
         if not user.is_authenticated():
             return LinkModel.objects.none()
         return LinkModel.objects.filter(owner=user)
+
+
+class Mutation(AbstractType):
+    add_link = AddLink.Field()
