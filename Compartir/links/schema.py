@@ -13,7 +13,7 @@ from links.models import LinkModel
 def get_user_jwt(request):
     ''' Get the user class.
     return the default user object from django if user is authenticated through
-    session or basic. If not authenticate the user through
+    session or basic. If not authenticate the user through jwt with
     JSONWebTokenAuthentication
     '''
     user = get_user(request)

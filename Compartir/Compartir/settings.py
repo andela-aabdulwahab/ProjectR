@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'authentication.apps.AuthenticationConfig',
     'links.apps.LinksConfig',
+    'rest_framework',
     'graphene_django',
     'graph_auth',
 ]
@@ -78,6 +79,16 @@ GRAPH_AUTH = {
     'USER_FIELDS': ('username', 'email', 'first_name', 'last_name', )
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
+}
 
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
