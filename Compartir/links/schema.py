@@ -24,6 +24,13 @@ def get_user_jwt(request):
     return user
 
 
+def get_authenticated_user(request):
+    user = get_user_jwt(request)
+    if not user.is_authenticated():
+        raise Exception("Action not allowed for Login User")
+    return user
+
+
 class LinkNode(DjangoObjectType):
 
     class Meta:
@@ -33,6 +40,10 @@ class LinkNode(DjangoObjectType):
             'title': ['exact', 'icontains', 'istartswith'],
             'description': ['exact', 'icontains', 'istartswith'],
         }
+    pk = String()
+
+    def resolve_pk(self, args, context, info):
+        return self.id
 
 
 class AddLink(relay.ClientIDMutation):
@@ -49,13 +60,37 @@ class AddLink(relay.ClientIDMutation):
     def mutate_and_get_payload(cls, input, context, info):
         title = input.pop('title')
         url = input.pop('url')
-        user = get_user_jwt(context)
-
-        if not user.is_authenticated():
-            raise Exception("Action not allowed for Login User")
+        user = get_authenticated_user(context)
         link = LinkModel.objects.create(title=title, url=url,
                                         owner=user, **input)
         return AddLink(ok=True, link=link)
+
+
+class UpdateLink(relay.ClientIDMutation):
+
+    class Input:
+        pk = String(required=True)
+        title = String()
+        url = String()
+        description = String()
+
+    ok = Boolean()
+    link = Field(LinkNode)
+
+    @classmethod
+    def mutate_and_get_payload(cls, input, context, info):
+        pk = input.pop('pk')
+        user = get_authenticated_user(context)
+        link = LinkModel.objects.get(pk=pk)
+
+        if not link:
+            raise Exception("Link not found")
+
+        for key, value in input.items():
+            setattr(link, key, value)
+
+        link.save()
+        return UpdateLink(ok=True, link=link)
 
 
 class Query(AbstractType):
@@ -73,3 +108,4 @@ class Query(AbstractType):
 
 class Mutation(AbstractType):
     add_link = AddLink.Field()
+    update_link = UpdateLink.Field()
